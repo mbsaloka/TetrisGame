@@ -52,15 +52,15 @@ public class Mino {
 		checkStaticBlocksCollision();
 
 		for (int i = 0; i < 4; i++) {
-			if (blocks[i].x == Board.left_x) {
+			if (blocks[i].x <= Board.left_x - Block.SIZE) {
 				leftCollision = true;
 			}
 
-			if (blocks[i].x == Board.right_x - Block.SIZE) {
+			if (blocks[i].x >= Board.right_x - (Block.SIZE * 3)) {
 				rightCollision = true;
 			}
 
-			if (blocks[i].y == Board.bottom_y - Block.SIZE) {
+			if (blocks[i].y >= Board.bottom_y - (Block.SIZE * 3)) {
 				bottomCollision = true;
 			}
 		}

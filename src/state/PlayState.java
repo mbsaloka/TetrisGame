@@ -37,8 +37,8 @@ public class PlayState extends State {
 		this.stateManager = stateManager;
     board = new Board(GamePanel.WIDTH);
 
-    MINO_START_X = Board.left_x + (Board.WIDTH / 2) - (Block.SIZE * 2) - Block.SIZE;
-    MINO_START_Y = Board.top_y + Block.SIZE;
+    MINO_START_X = Board.left_x + (Board.WIDTH / 2) - (Block.SIZE / 2);
+    MINO_START_Y = Board.top_y - (Block.SIZE / 2);
 
     NEXTMINO_X = Board.right_x + 175;
     NEXTMINO_Y = Board.top_y + 500;
