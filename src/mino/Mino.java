@@ -122,10 +122,10 @@ public class Mino {
 
 		if (KeyHandler.upPressed) {
 			switch (direction) {
-				case 1: getDirection1(); break;
-				case 2: getDirection2(); break;
-				case 3: getDirection3(); break;
-				case 4: getDirection4(); break;
+				case 1: getDirection2(); break;
+				case 2: getDirection3(); break;
+				case 3: getDirection4(); break;
+				case 4: getDirection1(); break;
 			}
 			KeyHandler.upPressed = false;
 		}
