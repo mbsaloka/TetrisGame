@@ -11,4 +11,4 @@ javac -d bin \
     src/ui/*.java \
     src/utility/*.java
 
-cp -r ./Assets/* ./bin
+cp -r ./assets/* ./bin

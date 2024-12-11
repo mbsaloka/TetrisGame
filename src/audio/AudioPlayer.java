@@ -7,18 +7,16 @@ import javax.sound.sampled.Clip;
 import java.util.Objects;
 
 public class AudioPlayer {
-
 	private Clip clip;
+	private int pausePosition;
 
 	public AudioPlayer(String path) {
-
 		try {
-
 			AudioInputStream ais =
 				AudioSystem.getAudioInputStream(
-						Objects.requireNonNull(
-								getClass().getResourceAsStream(path)
-						)
+					Objects.requireNonNull(
+						getClass().getResourceAsStream(path)
+					)
 				);
 			AudioFormat baseFormat = ais.getFormat();
 			AudioFormat decodeFormat = new AudioFormat(
@@ -31,45 +29,48 @@ public class AudioPlayer {
 				false
 			);
 			AudioInputStream dais =
-				AudioSystem.getAudioInputStream(
-					decodeFormat, ais);
+				AudioSystem.getAudioInputStream(decodeFormat, ais);
 			clip = AudioSystem.getClip();
 			clip.open(dais);
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public void play() {
-		if(clip == null) return;
+		if (clip == null) return;
+
 		stop();
-		clip.setFramePosition(0);
+		pausePosition = 0;
+		clip.setFramePosition(pausePosition);
 		clip.start();
 	}
 
+	public void pause() {
+		if (clip != null && clip.isRunning()) {
+			pausePosition = clip.getFramePosition();
+			clip.stop();
+		}
+	}
+
+	public void resume() {
+		if (clip != null && !clip.isRunning()) {
+			clip.setFramePosition(pausePosition);
+			clip.start();
+		}
+	}
+
 	public void stop() {
-		if(clip.isRunning()) clip.stop();
+		if (clip != null && clip.isRunning()) {
+			clip.stop();
+		}
+		pausePosition = 0;
 	}
 
 	public void close() {
 		stop();
-		clip.close();
+		if (clip != null) {
+			clip.close();
+		}
 	}
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

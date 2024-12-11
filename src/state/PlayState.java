@@ -16,6 +16,10 @@ import utility.*;
 public class PlayState extends State {
 	private Background bg;
 	private AudioPlayer music;
+  private AudioPlayer sfxGameOver;
+  private AudioPlayer sfxPause;
+  private AudioPlayer sfxChangeOption;
+  private AudioPlayer sfxSelectOption;
 
 	private Font font;
 
@@ -23,9 +27,6 @@ public class PlayState extends State {
   private Border border;
   private Mino currentMino;
   private Mino nextMino;
-  private Button HomeButton;
-  private Button resumeButton;
-  private Button restartButton;
   private Panel pausePanel;
 
   private final int MINO_START_X;
@@ -61,7 +62,12 @@ public class PlayState extends State {
     Board.staticBlocks.clear();
 
 		try {
-			// music = new AudioPlayer("/SFX/music_menustate.wav");
+			music = new AudioPlayer("/SFX/Tetris_Theme.wav");
+      sfxGameOver = new AudioPlayer("/SFX/Game_Over.wav");
+      sfxPause = new AudioPlayer("/SFX/Click.wav");
+      sfxChangeOption = new AudioPlayer("/SFX/Change_Option.wav");
+      sfxSelectOption = new AudioPlayer("/SFX/Select.wav");
+
 			bg = new Background("/Backgrounds/Pattern01.png");
       border = new Border("/Backgrounds/Border.png");
 
@@ -82,7 +88,7 @@ public class PlayState extends State {
 			e.printStackTrace();
 		}
 
-		// music.play();
+		music.play();
 	}
 
 	@Override
@@ -92,7 +98,13 @@ public class PlayState extends State {
 	@Override
 	public void update() {
     if (KeyHandler.escapePressed) {
+      sfxPause.play();
       paused = !paused;
+      if (paused) {
+        music.pause();
+      } else {
+        music.resume();
+      }
       KeyHandler.escapePressed = false;
     }
 
@@ -104,11 +116,13 @@ public class PlayState extends State {
 
       if (KeyHandler.leftPressed) {
         if (pauseChoice > 0) pauseChoice--;
+        sfxChangeOption.play();
         KeyHandler.leftPressed = false;
       }
 
       if (KeyHandler.rightPressed) {
         if (pauseChoice < options.length - 1) pauseChoice++;
+        sfxChangeOption.play();
         KeyHandler.rightPressed = false;
       }
 
@@ -176,6 +190,8 @@ public class PlayState extends State {
     }
 
     if (gameOver) {
+      sfxGameOver.play();
+      music.stop();
       g.drawString("GAME OVER", Board.left_x + 50, Board.top_y + 300);
       stateManager.setState(StateManager.GAMEOVERSTATE);
     }
@@ -212,9 +228,21 @@ public class PlayState extends State {
 
   private void select() {
     switch (pauseChoice) {
-      case 0: stateManager.setState(StateManager.MENUSTATE); break;
-      case 1: paused = false; break;
-      case 2: stateManager.setState(StateManager.PLAYSTATE); break;
+      case 0:
+      stateManager.setState(StateManager.MENUSTATE);
+      sfxSelectOption.play();
+      music.stop();
+      break;
+      case 1:
+        sfxPause.play();
+        paused = false;
+        music.resume();
+        break;
+      case 2:
+        stateManager.setState(StateManager.PLAYSTATE);
+        sfxSelectOption.play();
+        music.stop();
+        break;
     }
   }
 
