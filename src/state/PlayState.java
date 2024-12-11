@@ -58,6 +58,8 @@ public class PlayState extends State {
     nextMino = getRandomMino();
     nextMino.setXY(NEXTMINO_X, NEXTMINO_Y);
 
+    Board.staticBlocks.clear();
+
 		try {
 			// music = new AudioPlayer("/SFX/music_menustate.wav");
 			bg = new Background("/Backgrounds/Pattern01.png");
