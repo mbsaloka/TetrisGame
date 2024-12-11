@@ -17,9 +17,9 @@ public class Mino {
 	private int deactivateCounter = 0;
 	private boolean leftCollision, rightCollision, bottomCollision;
 
-	private int left_bound = Board.left_x - Block.SIZE;
-	private int right_bound = Board.right_x - (Block.SIZE * 3);
-	private int bottom_bound = Board.bottom_y - (Block.SIZE * 3);
+	public static int leftBound = Board.left_x - Block.SIZE;
+	public static int rightBound = Board.right_x - (Block.SIZE * 3);
+	public static int bottomBound = Board.bottom_y - (Block.SIZE * 3);
 
 	public void create(MinoType type) {
 		for (int i = 0; i < 4; i++) {
@@ -56,15 +56,15 @@ public class Mino {
 		checkStaticBlocksCollision();
 
 		for (int i = 0; i < 4; i++) {
-			if (blocks[i].x <= left_bound) {
+			if (blocks[i].x <= leftBound) {
 				leftCollision = true;
 			}
 
-			if (blocks[i].x >= right_bound) {
+			if (blocks[i].x >= rightBound) {
 				rightCollision = true;
 			}
 
-			if (blocks[i].y >= bottom_bound) {
+			if (blocks[i].y >= bottomBound) {
 				bottomCollision = true;
 			}
 		}
@@ -76,15 +76,15 @@ public class Mino {
 		checkStaticBlocksCollision();
 
 		for (int i = 0; i < 4; i++) {
-			if (tempBlocks[i].x + Block.SIZE < left_bound) {
+			if (tempBlocks[i].x + Block.SIZE < leftBound) {
 				leftCollision = true;
 			}
 
-			if (tempBlocks[i].x - Block.SIZE > right_bound) {
+			if (tempBlocks[i].x - Block.SIZE > rightBound) {
 				rightCollision = true;
 			}
 
-			if (tempBlocks[i].y + Block.SIZE > bottom_bound) {
+			if (tempBlocks[i].y + Block.SIZE > bottomBound) {
 				bottomCollision = true;
 			}
 		}
@@ -165,6 +165,7 @@ public class Mino {
 				checkMoveCollision();
 
 				autoDropCounter = 0;
+				active = false;
 			}
 			KeyHandler.spacePressed = false;
 		}
@@ -185,7 +186,7 @@ public class Mino {
 	public void deactivating() {
 		deactivateCounter++;
 
-		if (deactivateCounter == 45) {
+		if (deactivateCounter == 25) {
 			deactivateCounter = 0;
 			checkMoveCollision();
 

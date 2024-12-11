@@ -32,12 +32,11 @@ public class PlayState extends State {
   private boolean gameOver = false;
 	public static int dropInterval = 60;
 
-
 	public PlayState(StateManager stateManager) {
 		this.stateManager = stateManager;
-    board = new Board(GamePanel.WIDTH);
+    board = new Board(GamePanel.WIDTH, this);
 
-    MINO_START_X = Board.left_x + (Board.WIDTH / 2) - (Block.SIZE / 2);
+    MINO_START_X = Board.left_x + (Board.WIDTH / 2) - (Block.SIZE * 3) - (Block.SIZE / 2);
     MINO_START_Y = Board.top_y - (Block.SIZE / 2);
 
     NEXTMINO_X = Board.right_x + 175;
@@ -140,6 +139,18 @@ public class PlayState extends State {
     }
 
     return mino;
+  }
+
+  public void setLevel(int level) {
+    this.level = level;
+  }
+
+  public void setLines(int lines) {
+    this.lines = lines;
+  }
+
+  public void setScore(int score) {
+    this.score = score;
   }
 
 }

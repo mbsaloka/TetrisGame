@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import mino.Block;
+import mino.Mino;
+import state.PlayState;
 
 public class Board {
 	public static final int WIDTH = 300;
@@ -22,7 +24,10 @@ public class Board {
 	private int effectCounter = 0;
 	private ArrayList<Integer> effectY = new ArrayList<>();
 
-	public Board(int panelWidth) {
+	private PlayState playState;
+
+	public Board(int panelWidth, PlayState playState) {
+		this.playState = playState;
 		left_x = (panelWidth / 2) - (WIDTH / 2);
 		right_x = left_x + WIDTH;
 		top_y = 50;
@@ -30,37 +35,41 @@ public class Board {
 	}
 
 	public void checkDelete(int level, int lines, int dropInterval, int score) {
-		int x = left_x;
+		int x = Mino.leftBound - Block.SIZE;
 		int y = top_y;
 		int blockCount = 0;
 		int lineCount = 0;
 
-		while (x < right_x && y < bottom_y) {
+		while (x <= Mino.rightBound && y <= Mino.bottomBound) {
 			for (Block block : staticBlocks) {
-				if (block.x == x && block.y == y) {
+				if (block.x == (x + (Block.SIZE / 2)) && block.y == (y + (Block.SIZE / 2))) {
 					blockCount++;
+				}
+				else{
 				}
 			}
 
 			x += Block.SIZE;
 
-			if (x == right_x) {
+			if (x > Mino.rightBound) {
 				if (blockCount == BLOCKS_PER_ROW) {
 					effectCounterOn = true;
-					effectY.add(y);
+					effectY.add(y + (2 * Block.SIZE));
 
 					for (int i = staticBlocks.size() - 1; i >= 0; i--) {
 						Block block = staticBlocks.get(i);
-						if (block.y == y) {
+						if (block.y == (y + (Block.SIZE / 2))) {
 							staticBlocks.remove(i);
 						}
 					}
 
 					lineCount++;
 					lines++;
+					playState.setLines(lines);
 
 					if (lines % 10 == 0 && dropInterval > 1) {
 						level++;
+						playState.setLevel(level);
 						dropInterval = Math.max(dropInterval - 10, 1);
 					}
 
@@ -72,7 +81,7 @@ public class Board {
 				}
 
 				blockCount = 0;
-				x = left_x;
+				x = Mino.leftBound - Block.SIZE;
 				y += Block.SIZE;
 			}
 		}
@@ -80,6 +89,7 @@ public class Board {
 		if (lineCount > 0) {
 			int singleLineScore = 10 * level;
 			score += singleLineScore * lineCount;
+			playState.setScore(score);
 		}
 	}
 
@@ -96,7 +106,7 @@ public class Board {
 
 	public void drawEffect(Graphics2D g2) {
 		if (effectCounterOn) {
-			g2.setColor(Color.white);
+			g2.setColor(new Color(255, 255, 255, 200));
 			for (int y : effectY) {
 				g2.fillRect(left_x, y, WIDTH, Block.SIZE);
 			}
