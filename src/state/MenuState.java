@@ -1,9 +1,6 @@
 package state;
 
 import java.awt.*;
-import java.awt.RenderingHints.Key;
-import java.io.File;
-import java.util.Objects;
 
 import audio.AudioPlayer;
 import board.*;
@@ -14,7 +11,9 @@ import utility.*;
 
 public class MenuState extends State {
 	private Background bg;
-	private AudioPlayer music;
+	private AudioPlayer sfxChangeOption;
+	private AudioPlayer sfxSelectOption;
+	private AudioPlayer sfxGameStart;
 
 	private int currentChoice = 0;
 	private Button[] options;
@@ -24,7 +23,10 @@ public class MenuState extends State {
 		this.stateManager = stateManager;
 
 		try {
-			// music = new AudioPlayer("/SFX/music_menustate.wav");
+			sfxChangeOption = new AudioPlayer("/SFX/Change_Option.wav");
+			sfxSelectOption = new AudioPlayer("/SFX/Select.wav");
+			sfxGameStart = new AudioPlayer("/SFX/Game_Start.wav");
+
 			bg = new Background("/Backgrounds/Pattern01.png");
 			options = new Button[] {
 				new Button("/Buttons/Button_Play.png", (GamePanel.WIDTH / 2) - (164 / 2) , 300, 164, 84),
@@ -35,8 +37,6 @@ public class MenuState extends State {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		// music.play();
 	}
 
 	@Override
@@ -45,17 +45,19 @@ public class MenuState extends State {
 	@Override
 	public void update() {
 		if (KeyHandler.enterPressed) {
-			// music.stop();
+			sfxSelectOption.play();
 			select();
 		}
 
 		if (KeyHandler.upPressed) {
 			currentChoice = currentChoice - 1 == -1 ? options.length - 1 : currentChoice - 1;
+			sfxChangeOption.play();
 			KeyHandler.upPressed = false;
 		}
 
 		if (KeyHandler.downPressed) {
 			currentChoice = currentChoice + 1 == options.length ? 0 : currentChoice + 1;
+			sfxChangeOption.play();
 			KeyHandler.downPressed = false;
 		}
 	}
@@ -79,7 +81,10 @@ public class MenuState extends State {
 
 	private void select() {
 		switch (currentChoice) {
-			case 0: stateManager.setState(StateManager.PLAYSTATE); break;
+			case 0:
+				sfxGameStart.play();
+				stateManager.setState(StateManager.PLAYSTATE);
+				break;
 			// case 1: stateManager.setState(StateManager.ABOUTSTATE); break;
 			case 2: System.exit(0); break;
 		}

@@ -2,6 +2,7 @@ package mino;
 
 import java.awt.*;
 
+import audio.AudioPlayer;
 import enums.MinoType;
 import utility.KeyHandler;
 import board.Board;
@@ -10,6 +11,11 @@ import state.PlayState;
 public class Mino {
 	public Block blocks[] = new Block[4];
 	public Block tempBlocks[] = new Block[4];
+
+	private AudioPlayer sfxBrickMove; // mino
+  private AudioPlayer sfxDropBrick; // mino
+	private AudioPlayer sfxDeactiveBrick; // mino
+
 	public int direction = 1;
 	public boolean active = true;
 	public boolean deactivating;
@@ -20,6 +26,17 @@ public class Mino {
 	public static int leftBound = Board.left_x - Block.SIZE;
 	public static int rightBound = Board.right_x - (Block.SIZE * 3);
 	public static int bottomBound = Board.bottom_y - (Block.SIZE * 3);
+
+	public Mino() {
+		try {
+			sfxBrickMove = new AudioPlayer("/SFX/Brick_Move.wav");
+			sfxDropBrick = new AudioPlayer("/SFX/Drop_Brick.wav");
+			sfxDeactiveBrick = new AudioPlayer("/SFX/Deactive_Brick.wav");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
 
 	public void create(MinoType type) {
 		for (int i = 0; i < 4; i++) {
@@ -123,6 +140,7 @@ public class Mino {
 				case 3: getDirection4(); break;
 				case 4: getDirection1(); break;
 			}
+			sfxBrickMove.play();
 			KeyHandler.upPressed = false;
 		}
 
@@ -134,6 +152,7 @@ public class Mino {
 					blocks[i].x -= Block.SIZE;
 				}
 			}
+			sfxBrickMove.play();
 			KeyHandler.leftPressed = false;
 		}
 
@@ -143,6 +162,7 @@ public class Mino {
 					blocks[i].x += Block.SIZE;
 				}
 			}
+			sfxBrickMove.play();
 			KeyHandler.rightPressed = false;
 		}
 
@@ -154,6 +174,7 @@ public class Mino {
 
 				autoDropCounter = 0;
 			}
+			sfxBrickMove.play();
 			KeyHandler.downPressed = false;
 		}
 
@@ -167,6 +188,7 @@ public class Mino {
 				autoDropCounter = 0;
 				active = false;
 			}
+			sfxDropBrick.play();
 			KeyHandler.spacePressed = false;
 		}
 
@@ -192,6 +214,7 @@ public class Mino {
 
 			if (bottomCollision) {
 				active = false;
+				sfxDeactiveBrick.play();
 			}
 		}
 	}

@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import audio.AudioPlayer;
 import mino.Block;
 import mino.Mino;
 import state.PlayState;
@@ -25,6 +26,7 @@ public class Board {
 	private ArrayList<Integer> effectY = new ArrayList<>();
 
 	private PlayState playState;
+	private AudioPlayer sfxClearLine;
 
 	public Board(int panelWidth, PlayState playState) {
 		this.playState = playState;
@@ -32,6 +34,12 @@ public class Board {
 		right_x = left_x + WIDTH;
 		top_y = 50;
 		bottom_y = top_y + HEIGHT;
+
+		try {
+			sfxClearLine = new AudioPlayer("/SFX/Clear_Line.wav");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void checkDelete(int level, int lines, int dropInterval, int score) {
@@ -106,6 +114,7 @@ public class Board {
 
 	public void drawEffect(Graphics2D g2) {
 		if (effectCounterOn) {
+			sfxClearLine.play();
 			g2.setColor(new Color(255, 255, 255, 200));
 			for (int y : effectY) {
 				g2.fillRect(left_x, y, WIDTH, Block.SIZE);
