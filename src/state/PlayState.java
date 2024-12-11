@@ -9,6 +9,8 @@ import audio.AudioPlayer;
 import board.*;
 import main.GamePanel;
 import mino.*;
+import ui.Button;
+import ui.Panel;
 import utility.*;
 
 public class PlayState extends State {
@@ -21,6 +23,11 @@ public class PlayState extends State {
   private Border border;
   private Mino currentMino;
   private Mino nextMino;
+  private Button HomeButton;
+  private Button resumeButton;
+  private Button restartButton;
+  private Panel pausePanel;
+
   private final int MINO_START_X;
   private final int MINO_START_Y;
   private final int NEXTMINO_X;
@@ -32,6 +39,9 @@ public class PlayState extends State {
   private boolean gameOver = false;
   private boolean paused = false;
 	public static int dropInterval = 60;
+
+  private int pauseChoice = 1;
+  private Button[] options;
 
 	public PlayState(StateManager stateManager) {
 		this.stateManager = stateManager;
@@ -52,6 +62,13 @@ public class PlayState extends State {
 			// music = new AudioPlayer("/SFX/music_menustate.wav");
 			bg = new Background("/Backgrounds/Pattern01.png");
       border = new Border("/Backgrounds/Border.png");
+
+      pausePanel = new Panel("/Panel/Panel_Pause.png", (GamePanel.WIDTH / 2) - (606 / 2), (GamePanel.HEIGHT / 2) - (240 /2), 606, 240);
+      options = new Button[] {
+				new Button("/Buttons/Button_Home.png", (GamePanel.WIDTH / 2) - (84 / 2) - 173, 360, 84, 84),
+				new Button("/Buttons/Button_Resume.png", (GamePanel.WIDTH / 2) - (84 / 2) , 360, 84, 84),
+				new Button("/Buttons/Button_Restart.png", (GamePanel.WIDTH / 2) - (84 / 2) + 173, 360, 84, 84)
+      };
 
 			Font AccidentalPrecidency = Font.createFont(Font.TRUETYPE_FONT, new File(Objects.requireNonNull(getClass().getResource("/Fonts/AccidentalPrecidency.ttf")).getPath()));
 
@@ -78,6 +95,21 @@ public class PlayState extends State {
     }
 
     if (paused) {
+      if (KeyHandler.enterPressed) {
+        select();
+        KeyHandler.enterPressed = false;
+      }
+
+      if (KeyHandler.leftPressed) {
+        if (pauseChoice > 0) pauseChoice--;
+        KeyHandler.leftPressed = false;
+      }
+
+      if (KeyHandler.rightPressed) {
+        if (pauseChoice < options.length - 1) pauseChoice++;
+        KeyHandler.rightPressed = false;
+      }
+
       return;
     }
 
@@ -128,6 +160,19 @@ public class PlayState extends State {
     g.drawString("Lines: " + lines, 50, 100);
     g.drawString("Score: " + score, 50, 150);
 
+    if (paused) {
+      pausePanel.draw(g);
+      for (int i=0; i < options.length; i++) {
+        if (i == pauseChoice) {
+          options[i].setHovered(true);
+          options[i].draw(g);
+        } else {
+          options[i].setHovered(false);
+          options[i].draw(g);
+        }
+      }
+    }
+
     if (gameOver) {
       g.drawString("GAME OVER", Board.left_x + 50, Board.top_y + 300);
       stateManager.setState(StateManager.GAMEOVERSTATE);
@@ -161,6 +206,14 @@ public class PlayState extends State {
 
   public void setScore(int score) {
     this.score = score;
+  }
+
+  private void select() {
+    switch (pauseChoice) {
+      case 0: stateManager.setState(StateManager.MENUSTATE); break;
+      case 1: paused = false; break;
+      case 2: stateManager.setState(StateManager.PLAYSTATE); break;
+    }
   }
 
 }
