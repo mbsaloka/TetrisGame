@@ -12,6 +12,10 @@ public class StateManager {
 	public static final int PLAYSTATE = 3;
 	public static final int GAMEOVERSTATE = 4;
 
+	public int level;
+	public int lines;
+	public int score;
+
 	public StateManager() {
 		gameStates = new State[GAMESTATES];
 
@@ -25,7 +29,7 @@ public class StateManager {
 		// if (state == ABOUTSTATE) gameStates[state] = new AboutState(this);
 		// if (state == HIGHSCORESTATE) gameStates[state] = new HighscoreState(this);
 		if (state == PLAYSTATE) gameStates[state] = new PlayState(this);
-		// if (state == GAMEOVERSTATE) gameStates[state] = new GameOverState(this);
+		if (state == GAMEOVERSTATE) gameStates[state] = new GameOverState(this);
 	}
 
 	private void unloadState(int state) {
@@ -53,6 +57,10 @@ public class StateManager {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public State getState(int state) {
+		return gameStates[state];
 	}
 
 }

@@ -16,7 +16,6 @@ import utility.*;
 public class PlayState extends State {
 	private Background bg;
 	private AudioPlayer music;
-  private AudioPlayer sfxGameOver;
   private AudioPlayer sfxPause;
   private AudioPlayer sfxChangeOption;
   private AudioPlayer sfxSelectOption;
@@ -48,7 +47,7 @@ public class PlayState extends State {
 		this.stateManager = stateManager;
     board = new Board(GamePanel.WIDTH, this);
 
-    MINO_START_X = Board.left_x + (Board.WIDTH / 2) - (Block.SIZE * 2) - (Block.SIZE / 2);
+    MINO_START_X = Board.left_x + (Board.WIDTH / 2) - (Block.SIZE) - (Block.SIZE / 2);
     MINO_START_Y = Board.top_y - (Block.SIZE / 2);
 
     NEXTMINO_X = Board.right_x + 175;
@@ -63,7 +62,6 @@ public class PlayState extends State {
 
 		try {
 			music = new AudioPlayer("/SFX/Tetris_Theme.wav");
-      sfxGameOver = new AudioPlayer("/SFX/Game_Over.wav");
       sfxPause = new AudioPlayer("/SFX/Click.wav");
       sfxChangeOption = new AudioPlayer("/SFX/Change_Option.wav");
       sfxSelectOption = new AudioPlayer("/SFX/Select.wav");
@@ -92,8 +90,7 @@ public class PlayState extends State {
 	}
 
 	@Override
-	public void init() {
-  }
+	public void init() {}
 
 	@Override
 	public void update() {
@@ -172,9 +169,9 @@ public class PlayState extends State {
     g.setFont(font);
     g.setColor(Color.WHITE);
 
-    g.drawString("Level: " + level, 50, 50);
-    g.drawString("Lines: " + lines, 50, 100);
-    g.drawString("Score: " + score, 50, 150);
+    g.drawString("Level: " + level, 120, 100);
+    g.drawString("Lines: " + lines, 120, 150);
+    g.drawString("Score: " + score, 120, 200);
 
     if (paused) {
       pausePanel.draw(g);
@@ -190,9 +187,10 @@ public class PlayState extends State {
     }
 
     if (gameOver) {
-      sfxGameOver.play();
       music.stop();
-      g.drawString("GAME OVER", Board.left_x + 50, Board.top_y + 300);
+      stateManager.level = level;
+      stateManager.lines = lines;
+      stateManager.score = score;
       stateManager.setState(StateManager.GAMEOVERSTATE);
     }
 	}
@@ -245,5 +243,4 @@ public class PlayState extends State {
         break;
     }
   }
-
 }
