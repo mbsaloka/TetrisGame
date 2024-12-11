@@ -5,12 +5,11 @@ public class StateManager {
 	private int currentState;
 	private int previousState;
 
-	public static final int GAMESTATES = 5;
+	public static final int GAMESTATES = 4;
 	public static final int MENUSTATE = 0;
 	public static final int ABOUTSTATE = 1;
-	public static final int HIGHSCORESTATE = 2;
-	public static final int PLAYSTATE = 3;
-	public static final int GAMEOVERSTATE = 4;
+	public static final int PLAYSTATE = 2;
+	public static final int GAMEOVERSTATE = 3;
 
 	public int level;
 	public int lines;
@@ -26,8 +25,7 @@ public class StateManager {
 
 	private void loadState(int state) {
 		if (state == MENUSTATE) gameStates[state] = new MenuState(this);
-		// if (state == ABOUTSTATE) gameStates[state] = new AboutState(this);
-		// if (state == HIGHSCORESTATE) gameStates[state] = new HighscoreState(this);
+		if (state == ABOUTSTATE) gameStates[state] = new AboutState(this);
 		if (state == PLAYSTATE) gameStates[state] = new PlayState(this);
 		if (state == GAMEOVERSTATE) gameStates[state] = new GameOverState(this);
 	}

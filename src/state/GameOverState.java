@@ -24,7 +24,7 @@ public class GameOverState extends State{
 	private int choice = 0;
 	private Button[] options;
 
-	public GameOverState (StateManager stateManager){
+	public GameOverState(StateManager stateManager){
 		this.stateManager = stateManager;
 
 		try{

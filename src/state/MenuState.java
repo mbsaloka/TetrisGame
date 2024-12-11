@@ -85,7 +85,7 @@ public class MenuState extends State {
 				sfxGameStart.play();
 				stateManager.setState(StateManager.PLAYSTATE);
 				break;
-			// case 1: stateManager.setState(StateManager.ABOUTSTATE); break;
+			case 1: stateManager.setState(StateManager.ABOUTSTATE); break;
 			case 2: System.exit(0); break;
 		}
 	}
