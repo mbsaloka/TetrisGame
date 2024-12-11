@@ -30,13 +30,14 @@ public class PlayState extends State {
   private int lines = 0;
   private int score = 0;
   private boolean gameOver = false;
+  private boolean paused = false;
 	public static int dropInterval = 60;
 
 	public PlayState(StateManager stateManager) {
 		this.stateManager = stateManager;
     board = new Board(GamePanel.WIDTH, this);
 
-    MINO_START_X = Board.left_x + (Board.WIDTH / 2) - (Block.SIZE * 3) - (Block.SIZE / 2);
+    MINO_START_X = Board.left_x + (Board.WIDTH / 2) - (Block.SIZE * 2) - (Block.SIZE / 2);
     MINO_START_Y = Board.top_y - (Block.SIZE / 2);
 
     NEXTMINO_X = Board.right_x + 175;
@@ -71,6 +72,15 @@ public class PlayState extends State {
 
 	@Override
 	public void update() {
+    if (KeyHandler.escapePressed) {
+      paused = !paused;
+      KeyHandler.escapePressed = false;
+    }
+
+    if (paused) {
+      return;
+    }
+
     if (!currentMino.active) {
       Board.staticBlocks.add(currentMino.blocks[0]);
       Board.staticBlocks.add(currentMino.blocks[1]);
@@ -120,7 +130,7 @@ public class PlayState extends State {
 
     if (gameOver) {
       g.drawString("GAME OVER", Board.left_x + 50, Board.top_y + 300);
-      // stateManager.setState(StateManager.GAMEOVERSTATE);
+      stateManager.setState(StateManager.GAMEOVERSTATE);
     }
 	}
 

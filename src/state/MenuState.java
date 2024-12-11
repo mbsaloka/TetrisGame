@@ -8,6 +8,8 @@ import java.util.Objects;
 import audio.AudioPlayer;
 import board.*;
 import main.GamePanel;
+import ui.Button;
+import ui.Title;
 import utility.*;
 
 public class MenuState extends State {
@@ -15,16 +17,8 @@ public class MenuState extends State {
 	private AudioPlayer music;
 
 	private int currentChoice = 0;
-	private String[] options = {
-		"Play Game",
-		"High Score",
-		"About",
-		"Quit"
-	};
-
-	private Color titleColor;
-	private Font titleFont;
-	private Font font;
+	private Button[] options;
+	private Title title;
 
 	public MenuState(StateManager stateManager) {
 		this.stateManager = stateManager;
@@ -32,18 +26,12 @@ public class MenuState extends State {
 		try {
 			// music = new AudioPlayer("/SFX/music_menustate.wav");
 			bg = new Background("/Backgrounds/Pattern01.png");
-
-			Font ManilaCity = Font.createFont(Font.TRUETYPE_FONT, new File(Objects.requireNonNull(getClass().getResource("/Fonts/ManilaCity.ttf")).getPath()));
-			Font AccidentalPrecidency = Font.createFont(Font.TRUETYPE_FONT, new File(Objects.requireNonNull(getClass().getResource("/Fonts/AccidentalPrecidency.ttf")).getPath()));
-
-			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-			ge.registerFont(ManilaCity);
-			ge.registerFont(AccidentalPrecidency);
-
-			titleColor = new Color(255, 235, 72);
-			titleFont = ManilaCity.deriveFont(60f);
-
-			font = AccidentalPrecidency.deriveFont(50f);
+			options = new Button[] {
+				new Button("/Buttons/Button_Play.png", (GamePanel.WIDTH / 2) - (164 / 2) , 300, 164, 84),
+				new Button("/Buttons/Button_About.png", (GamePanel.WIDTH / 2) - (164 / 2) , 400, 164, 84),
+				new Button("/Buttons/Button_Exit.png", (GamePanel.WIDTH / 2) - (164 / 2) , 500, 164, 84)
+			};
+			title = new Title("/Title/Title_Tetris.png", (GamePanel.WIDTH / 2) - (531 / 2), 120, 531, 115);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -76,27 +64,24 @@ public class MenuState extends State {
 	public void draw(Graphics2D g) {
 		bg.draw(g);
 
-		Utility.horizontalCenteredText(g, "TETRIS", GamePanel.WIDTH, 290, titleFont, titleColor);
-
-		g.setFont(font);
+		title.draw(g);
 
 		for (int i = 0; i < options.length; i++) {
 			if (i == currentChoice) {
-				g.setColor(Color.WHITE);
+				options[i].setHovered(true);
+				options[i].draw(g);
 			} else {
-				g.setColor(Color.DARK_GRAY);
+				options[i].setHovered(false);
+				options[i].draw(g);
 			}
-
-			Utility.horizontalCenteredText(g, options[i], GamePanel.WIDTH, 360 + i * 45, font, g.getColor());
 		}
 	}
 
 	private void select() {
 		switch (currentChoice) {
 			case 0: stateManager.setState(StateManager.PLAYSTATE); break;
-			// case 1: stateManager.setState(StateManager.HIGHSCORESTATE); break;
-			// case 2: stateManager.setState(StateManager.ABOUTSTATE); break;
-			case 3: System.exit(0); break;
+			// case 1: stateManager.setState(StateManager.ABOUTSTATE); break;
+			case 2: System.exit(0); break;
 		}
 	}
 
