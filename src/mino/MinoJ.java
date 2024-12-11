@@ -8,6 +8,12 @@ public class MinoJ extends Mino {
     create(MinoType.J);
   }
 
+  /*
+   *    []
+   *    []
+   *  [][]
+   */
+
   public void setXY(int x, int y) {
     blocks[0].x = x;
     blocks[0].y = y;
@@ -26,7 +32,7 @@ public class MinoJ extends Mino {
     tempBlocks[1].y = blocks[0].y - Block.SIZE;
     tempBlocks[2].x = blocks[0].x;
     tempBlocks[2].y = blocks[0].y + Block.SIZE;
-    tempBlocks[3].x = blocks[0].x + Block.SIZE;
+    tempBlocks[3].x = blocks[0].x - Block.SIZE;
     tempBlocks[3].y = blocks[0].y + Block.SIZE;
 
     updateXY(1);
@@ -40,7 +46,7 @@ public class MinoJ extends Mino {
     tempBlocks[2].x = blocks[0].x - Block.SIZE;
     tempBlocks[2].y = blocks[0].y;
     tempBlocks[3].x = blocks[0].x - Block.SIZE;
-    tempBlocks[3].y = blocks[0].y + Block.SIZE;
+    tempBlocks[3].y = blocks[0].y - Block.SIZE;
 
     updateXY(2);
   }
@@ -52,7 +58,7 @@ public class MinoJ extends Mino {
     tempBlocks[1].y = blocks[0].y + Block.SIZE;
     tempBlocks[2].x = blocks[0].x;
     tempBlocks[2].y = blocks[0].y - Block.SIZE;
-    tempBlocks[3].x = blocks[0].x - Block.SIZE;
+    tempBlocks[3].x = blocks[0].x + Block.SIZE;
     tempBlocks[3].y = blocks[0].y - Block.SIZE;
 
     updateXY(3);
@@ -66,7 +72,7 @@ public class MinoJ extends Mino {
     tempBlocks[2].x = blocks[0].x + Block.SIZE;
     tempBlocks[2].y = blocks[0].y;
     tempBlocks[3].x = blocks[0].x + Block.SIZE;
-    tempBlocks[3].y = blocks[0].y - Block.SIZE;
+    tempBlocks[3].y = blocks[0].y + Block.SIZE;
 
     updateXY(4);
   }

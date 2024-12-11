@@ -7,6 +7,13 @@ public class MinoL extends Mino {
     super();
     create(MinoType.L);
   }
+  /*
+   *
+   *     []
+   *     []
+   *     [][]
+   *
+   */
 
   public void setXY(int x, int y) {
     blocks[0].x = x;

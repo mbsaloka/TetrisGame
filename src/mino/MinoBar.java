@@ -22,12 +22,12 @@ public class MinoBar extends Mino {
   public void getDirection1() {
     tempBlocks[0].x = blocks[0].x;
     tempBlocks[0].y = blocks[0].y;
-    tempBlocks[1].x = blocks[1].x + Block.SIZE;
-    tempBlocks[1].y = blocks[1].y - Block.SIZE;
-    tempBlocks[2].x = blocks[2].x - Block.SIZE;
-    tempBlocks[2].y = blocks[2].y + Block.SIZE;
-    tempBlocks[3].x = blocks[3].x - (Block.SIZE * 2);
-    tempBlocks[3].y = blocks[3].y + (Block.SIZE * 2);
+    tempBlocks[1].x = blocks[0].x - Block.SIZE;
+    tempBlocks[1].y = blocks[0].y;
+    tempBlocks[2].x = blocks[0].x + Block.SIZE;
+    tempBlocks[2].y = blocks[0].y;
+    tempBlocks[3].x = blocks[0].x + (Block.SIZE * 2);
+    tempBlocks[3].y = blocks[0].y;
 
     updateXY(1);
   }
@@ -35,12 +35,12 @@ public class MinoBar extends Mino {
   public void getDirection2() {
     tempBlocks[0].x = blocks[0].x;
     tempBlocks[0].y = blocks[0].y;
-    tempBlocks[1].x = blocks[1].x - Block.SIZE;
-    tempBlocks[1].y = blocks[1].y + Block.SIZE;
-    tempBlocks[2].x = blocks[2].x + Block.SIZE;
-    tempBlocks[2].y = blocks[2].y - Block.SIZE;
-    tempBlocks[3].x = blocks[3].x + (Block.SIZE * 2);
-    tempBlocks[3].y = blocks[3].y - (Block.SIZE * 2);
+    tempBlocks[1].x = blocks[0].x;
+    tempBlocks[1].y = blocks[0].y - Block.SIZE;
+    tempBlocks[2].x = blocks[0].x;
+    tempBlocks[2].y = blocks[0].y + Block.SIZE;
+    tempBlocks[3].x = blocks[0].x;
+    tempBlocks[3].y = blocks[0].y + (Block.SIZE * 2);
 
     updateXY(2);
   }

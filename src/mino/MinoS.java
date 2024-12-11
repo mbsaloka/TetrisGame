@@ -35,7 +35,7 @@ public class MinoS extends Mino {
   public void getDirection2() {
     tempBlocks[0].x = blocks[0].x;
     tempBlocks[0].y = blocks[0].y;
-    tempBlocks[1].x = blocks[0].x + Block.SIZE;
+    tempBlocks[1].x = blocks[0].x - Block.SIZE;
     tempBlocks[1].y = blocks[0].y;
     tempBlocks[2].x = blocks[0].x;
     tempBlocks[2].y = blocks[0].y - Block.SIZE;
