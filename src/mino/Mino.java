@@ -17,6 +17,10 @@ public class Mino {
 	private int deactivateCounter = 0;
 	private boolean leftCollision, rightCollision, bottomCollision;
 
+	private int left_bound = Board.left_x - Block.SIZE;
+	private int right_bound = Board.right_x - (Block.SIZE * 3);
+	private int bottom_bound = Board.bottom_y - (Block.SIZE * 3);
+
 	public void create(MinoType type) {
 		for (int i = 0; i < 4; i++) {
 			blocks[i] = new Block(type);
@@ -52,15 +56,15 @@ public class Mino {
 		checkStaticBlocksCollision();
 
 		for (int i = 0; i < 4; i++) {
-			if (blocks[i].x <= Board.left_x - Block.SIZE) {
+			if (blocks[i].x <= left_bound) {
 				leftCollision = true;
 			}
 
-			if (blocks[i].x >= Board.right_x - (Block.SIZE * 3)) {
+			if (blocks[i].x >= right_bound) {
 				rightCollision = true;
 			}
 
-			if (blocks[i].y >= Board.bottom_y - (Block.SIZE * 3)) {
+			if (blocks[i].y >= bottom_bound) {
 				bottomCollision = true;
 			}
 		}
@@ -72,19 +76,15 @@ public class Mino {
 		checkStaticBlocksCollision();
 
 		for (int i = 0; i < 4; i++) {
-			if (tempBlocks[i].x < Board.left_x) {
+			if (tempBlocks[i].x + Block.SIZE < left_bound) {
 				leftCollision = true;
 			}
-		}
 
-		for (int i = 0; i < 4; i++) {
-			if (tempBlocks[i].x > Board.right_x - Block.SIZE) {
+			if (tempBlocks[i].x - Block.SIZE > right_bound) {
 				rightCollision = true;
 			}
-		}
 
-		for (int i = 0; i < 4; i++) {
-			if (tempBlocks[i].y > Board.bottom_y - Block.SIZE) {
+			if (tempBlocks[i].y + Block.SIZE > bottom_bound) {
 				bottomCollision = true;
 			}
 		}
@@ -99,15 +99,11 @@ public class Mino {
 				if (blocks[j].y + Block.SIZE == targetY && blocks[j].x == targetX) {
 					bottomCollision = true;
 				}
-			}
 
-			for (int j = 0; j < 4; j++) {
 				if (blocks[j].x - Block.SIZE == targetX && blocks[j].y == targetY) {
 					leftCollision = true;
 				}
-			}
 
-			for (int j = 0; j < 4; j++) {
 				if (blocks[j].x + Block.SIZE == targetX && blocks[j].y == targetY) {
 					rightCollision = true;
 				}
@@ -201,7 +197,7 @@ public class Mino {
 
 	public void draw(Graphics2D g2) {
     for (Block block : blocks) {
-			g2.drawImage(block.getImage(), block.x, block.y, null);
+			block.draw(g2);
     }
 	}
 

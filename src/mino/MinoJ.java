@@ -8,12 +8,6 @@ public class MinoJ extends Mino {
     create(MinoType.J);
   }
 
-  /*
-   *    []
-   *    []
-   *  [][]
-   */
-
   public void setXY(int x, int y) {
     blocks[0].x = x;
     blocks[0].y = y;

@@ -87,6 +87,7 @@ public class PlayState extends State {
       currentMino = nextMino;
       currentMino.setXY(MINO_START_X, MINO_START_Y);
       nextMino = getRandomMino();
+      nextMino.setXY(NEXTMINO_X, NEXTMINO_Y);
 
       board.checkDelete(level, lines, dropInterval, score);
     } else {
