@@ -64,7 +64,7 @@ The rules are quite simple: players need to move the falling blocks to the left 
   ![Screenshot from 2024-12-12 14-47-08](https://github.com/user-attachments/assets/b6c296ea-865e-4cd2-90be-b3a60656fa93)
 
 
-## Game Asstes
+## Game Assets
 https://moxica.itch.io/tetrominoes
 
 https://prinbles.itch.io/bliss
